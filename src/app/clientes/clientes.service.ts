@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+// src/clientes/clientes.service.ts
+
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cliente } from './entities/cliente.entity';
@@ -13,23 +15,35 @@ export class ClientesService {
   ) {}
 
   create(dto: CreateClienteDto) {
-    const nuevo = this.clienteRepository.create(dto);
-    return this.clienteRepository.save(nuevo);
+    const nuevoCliente = this.clienteRepository.create({
+      ...dto,
+      fechaRegistroCliente: new Date(),
+    });
+    return this.clienteRepository.save(nuevoCliente);
   }
 
   findAll() {
     return this.clienteRepository.find();
   }
 
-  findOne(id: number) {
-    return this.clienteRepository.findOneBy({ idCliente: id });
+  async findOne(id: number) {
+    // Se busca por la propiedad 'id' de la clase.
+    const cliente = await this.clienteRepository.findOneBy({ id });
+    if (!cliente) {
+      throw new NotFoundException(`El cliente con el ID '${id}' no fue encontrado.`);
+    }
+    return cliente;
   }
 
-  update(id: number, dto: UpdateClienteDto) {
-    return this.clienteRepository.update({ idCliente: id }, dto);
+  async update(id: number, dto: UpdateClienteDto) {
+    const cliente = await this.findOne(id);
+    Object.assign(cliente, dto);
+    return this.clienteRepository.save(cliente);
   }
 
-  remove(id: number) {
-    return this.clienteRepository.delete({ idCliente: id });
+  async remove(id: number) {
+    const cliente = await this.findOne(id);
+    await this.clienteRepository.remove(cliente);
+    return cliente;
   }
 }

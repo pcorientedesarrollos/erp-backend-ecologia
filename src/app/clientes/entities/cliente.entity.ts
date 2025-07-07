@@ -1,25 +1,34 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+// src/clientes/entities/cliente.entity.ts
 
-@Entity('clientes')
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity({ name: 'clientes' })
 export class Cliente {
-  @PrimaryGeneratedColumn()
-  idCliente: number;
+  // <-- CAMBIO CRÍTICO: Renombramos la propiedad de idcliente a 'id'
+  @PrimaryGeneratedColumn({ name: 'idcliente' })
+  id: number;
 
-  @Column()
+  @Column({ name: 'nombreCliente', type: 'varchar', length: 100 })
   nombreCliente: string;
 
-  @Column()
+  @Column({ name: 'telefonoCliente', type: 'varchar', length: 20 })
   telefonoCliente: string;
 
-  @Column()
+  @Column({ name: 'correoCliente', type: 'varchar', length: 100 })
   correoCliente: string;
 
-  @Column()
+  @Column({ name: 'idtipocliente', type: 'int' })
   idTipoCliente: number;
 
-  @Column()
-  latitud: string;
+  @Column({ name: 'clienteActivo', type: 'smallint', default: 1 })
+  clienteActivo: number;
 
-  @Column()
-  longitud: string;
+  @Column({ name: 'fechaRegistroCliente', type: 'timestamp' })
+  fechaRegistroCliente: Date;
+
+  @Column({ type: 'numeric', nullable: true })
+  latitud: number | null;
+
+  @Column({ type: 'numeric', nullable: true })
+  longitud: number | null;
 }
