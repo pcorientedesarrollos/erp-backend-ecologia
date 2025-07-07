@@ -8,6 +8,7 @@ import { ClientesModule } from './app/clientes/clientes.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { dataSourceOptions } from './data-source';
+import { ViajesModule } from './app/viajes/viajes.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { dataSourceOptions } from './data-source';
     UsuariosModule,
     UnidadesModule,
     ClientesModule,
+    ViajesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
