@@ -29,7 +29,7 @@ import { AppService } from './app.service';
       }),
     }),
 
-    // Módulos de tu app
+    // Módulos
     UsuariosModule,
     UnidadesModule,
     ClientesModule,
