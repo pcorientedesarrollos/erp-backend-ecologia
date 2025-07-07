@@ -13,7 +13,6 @@ import { dataSourceOptions } from './data-source';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
 
-    // Usa la configuración centralizada. ¡Mucho más limpio y seguro!
     TypeOrmModule.forRoot(dataSourceOptions),
 
     UsuariosModule,
