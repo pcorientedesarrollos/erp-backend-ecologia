@@ -8,6 +8,7 @@ import { ClientesModule } from './app/clientes/clientes.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ViajesModule } from './app/viajes/viajes.module';
+import { ViajesDetallesModule } from './app/viajes-detalles/viajes-detalles.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ViajesModule } from './app/viajes/viajes.module';
     UnidadesModule,
     ClientesModule,
     ViajesModule,
+    ViajesDetallesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
