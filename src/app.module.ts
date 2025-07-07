@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UsuariosModule } from './app/usuarios/usuarios.module';
@@ -7,24 +7,15 @@ import { UnidadesModule } from './app/unidades/unidades.module';
 import { ClientesModule } from './app/clientes/clientes.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { dataSourceOptions } from './data-source';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }), // Carga variables del .env globalmente
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        host: config.get<string>('DB_HOST')!,
+    ConfigModule.forRoot({ isGlobal: true }),
 
-        username: config.get<string>('DB_USER')!,
-        password: config.get<string>('DB_PASSWORD'),
-        database: config.get<string>('DB_NAME'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
-      }),
-    }),
+    // Usa la configuración centralizada. ¡Mucho más limpio y seguro!
+    TypeOrmModule.forRoot(dataSourceOptions),
+
     UsuariosModule,
     UnidadesModule,
     ClientesModule,
