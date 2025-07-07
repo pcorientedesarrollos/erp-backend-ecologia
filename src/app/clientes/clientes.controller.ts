@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param,
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
   Delete,
-  ParseIntPipe,
-  HttpCode,
-  HttpStatus,
 } from '@nestjs/common';
 import { ClientesService } from './clientes.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
@@ -13,7 +16,6 @@ export class ClientesController {
   constructor(private readonly clientesService: ClientesService) {}
 
   @Post()
-  @HttpCode(HttpStatus.CREATED)
   create(@Body() dto: CreateClienteDto) {
     return this.clientesService.create(dto);
   }
@@ -24,21 +26,17 @@ export class ClientesController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.clientesService.findOne(id);
+  findOne(@Param('id') id: string) {
+    return this.clientesService.findOne(+id);
   }
 
   @Patch(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() dto: UpdateClienteDto,
-  ) {
-    return this.clientesService.update(id, dto);
+  update(@Param('id') id: string, @Body() dto: UpdateClienteDto) {
+    return this.clientesService.update(+id, dto);
   }
 
   @Delete(':id')
-  @HttpCode(HttpStatus.OK)
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.clientesService.remove(id);
+  remove(@Param('id') id: string) {
+    return this.clientesService.remove(+id);
   }
 }

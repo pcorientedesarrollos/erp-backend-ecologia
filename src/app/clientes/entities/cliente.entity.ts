@@ -1,33 +1,25 @@
-// src/clientes/entities/cliente.entity.ts
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
-@Entity('clientes') // Especifica el nombre de la tabla en la BD
+@Entity('clientes')
 export class Cliente {
-  @PrimaryGeneratedColumn({ name: 'idcliente' })
-  id: number;
+  @PrimaryGeneratedColumn()
+  idCliente: number;
 
-  @Column({ name: 'nombreCliente', type: 'varchar', length: 100 })
+  @Column()
   nombreCliente: string;
 
-  @Column({ name: 'telefonoCliente', type: 'varchar', length: 20 })
+  @Column()
   telefonoCliente: string;
 
-  @Column({ name: 'correoCliente', type: 'varchar', length: 100 })
+  @Column()
   correoCliente: string;
 
-  @Column({ name: 'idtipocliente', type: 'int' })
+  @Column()
   idTipoCliente: number;
 
-  @Column({ name: 'clienteActivo', type: 'smallint', default: 1 })
-  clienteActivo: number; // Generalmente 1 para activo, 0 para inactivo
+  @Column()
+  latitud: string;
 
-  @Column({ name: 'fechaRegistroCliente', type: 'timestamp' })
-  fechaRegistroCliente: Date;
-
-  @Column({ type: 'numeric', nullable: true })
-  latitud: number;
-
-  @Column({ type: 'numeric', nullable: true })
-  longitud: number;
+  @Column()
+  longitud: string;
 }
