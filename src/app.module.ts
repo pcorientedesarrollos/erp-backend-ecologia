@@ -10,21 +10,26 @@ import { AppService } from './app.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }), // Carga variables del .env globalmente
+    // 1. Cargar .env globalmente
+    ConfigModule.forRoot({ isGlobal: true }),
+
+    // 2. Conexión asíncrona usando ConfigService
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         type: 'postgres',
-        host: config.get<string>('DB_HOST')!,
-
-        username: config.get<string>('DB_USER')!,
+        host: config.get<string>('DB_HOST'),
+        port: parseInt(config.get<string>('DB_PORT') || '5432', 10),
+        username: config.get<string>('DB_USER'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
+        synchronize: true, // ⚠️ Solo usar en desarrollo
       }),
     }),
+
+    // Módulos de tu app
     UsuariosModule,
     UnidadesModule,
     ClientesModule,
