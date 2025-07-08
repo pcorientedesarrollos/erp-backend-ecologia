@@ -9,6 +9,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ViajesModule } from './app/viajes/viajes.module';
 import { ViajesDetallesModule } from './app/viajes-detalles/viajes-detalles.module';
+import { OperadoresModule } from './app/operadores/operadores.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ViajesDetallesModule } from './app/viajes-detalles/viajes-detalles.modu
     ClientesModule,
     ViajesModule,
     ViajesDetallesModule,
+    OperadoresModule,
   ],
   controllers: [AppController],
   providers: [AppService],
