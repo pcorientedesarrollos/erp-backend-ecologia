@@ -13,13 +13,13 @@ import {
 @Entity('viajes_detalles')
 export class ViajeDetalle {
   // Se define la propiedad de la llave primaria como 'id' en la clase.
-  @PrimaryGeneratedColumn({ name: 'idViajeDetalle' })
-  id: number;
+  @PrimaryGeneratedColumn()
+  idViajeDetalle: number;
 
-  @Column({ name: 'idViaje', type: 'int' })
+  @Column({type: 'int' })
   idViaje: number;
 
-  @Column({ name: 'idCliente', type: 'int' })
+  @Column({type: 'int' })
   idCliente: number;
 
   @Column({ type: 'varchar', length: 50 })
@@ -31,11 +31,11 @@ export class ViajeDetalle {
   // --- Relaciones Corregidas ---
   @ManyToOne(() => Viaje)
   // Apunta a la propiedad 'id' de la entidad Viaje.
-  @JoinColumn({ name: 'idViaje', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'idViaje', referencedColumnName: 'idViaje' })
   viaje: Viaje;
 
   @ManyToOne(() => Cliente)
   // Apunta a la propiedad 'id' de la entidad Cliente.
-  @JoinColumn({ name: 'idCliente', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'idCliente', referencedColumnName: 'idCliente' })
   cliente: Cliente;
 }

@@ -27,8 +27,8 @@ export class ClientesService {
   }
 
   async findOne(id: number) {
-    // Se busca por la propiedad 'id' de la clase.
-    const cliente = await this.clienteRepository.findOneBy({ id });
+    // Se busca por la propiedad 'idCliente' de la clase.
+    const cliente = await this.clienteRepository.findOneBy({ idCliente: id });
     if (!cliente) {
       throw new NotFoundException(`El cliente con el ID '${id}' no fue encontrado.`);
     }

@@ -24,7 +24,7 @@ export class ViajesDetallesService {
   }
 
   async findOne(id: number) {
-    const detalle = await this.viajeDetalleRepository.findOneBy({ id });
+    const detalle = await this.viajeDetalleRepository.findOneBy({ idViajeDetalle: id });
     if (!detalle) {
       throw new NotFoundException(`El detalle de viaje con ID '${id}' no fue encontrado.`);
     }
