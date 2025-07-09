@@ -27,7 +27,7 @@ export class OperadoresService {
   }
 
   async findOne(id: number) {
-    const operador = await this.operadorRepository.findOneBy({ id });
+    const operador = await this.operadorRepository.findOneBy({ idOperador: id });
     if (!operador) {
       throw new NotFoundException(`El operador con el ID '${id}' no fue encontrado.`);
     }

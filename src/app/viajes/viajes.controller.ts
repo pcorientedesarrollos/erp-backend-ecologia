@@ -1,73 +1,46 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Viaje } from './entities/viaje.entity';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { CreateViajeDto } from './dto/create-viaje.dto';
 import { UpdateViajeDto } from './dto/update-viaje.dto';
+import { ViajesService } from './viajes.service';
+@Controller('viajes')
+export class ViajesController {
+  constructor(private readonly viajesService: ViajesService) {}
 
-@Injectable()
-export class ViajesService {
-  constructor(
-    @InjectRepository(Viaje)
-    private readonly viajeRepository: Repository<Viaje>,
-  ) {}
-
-  create(dto: CreateViajeDto) {
-    const { fechaViaje, firmaViaje, ...restOfDto } = dto;
-
-    // Convertimos explícitamente el string a Date y manejamos el Buffer
-    const nuevoViaje = this.viajeRepository.create({
-      ...restOfDto,
-      // CORRECCIÓN 1: Convertir la fecha de string a Date
-      fechaViaje: new Date(fechaViaje),
-      fechaRegistroViaje: new Date(),
-      viajeCompletado: dto.viajeCompletado ?? 0,
-      firmaViaje: firmaViaje ? Buffer.from(firmaViaje, 'base64') : undefined,
-    });
-    return this.viajeRepository.save(nuevoViaje);
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  create(@Body() dto: CreateViajeDto) {
+    return this.viajesService.create(dto);
   }
 
+  @Get()
   findAll() {
-    return this.viajeRepository.find();
+    return this.viajesService.findAll();
   }
 
-  async findOne(id: number) {
-    const viaje = await this.viajeRepository.findOneBy({ id });
-    if (!viaje) {
-      throw new NotFoundException(`El viaje con el ID '${id}' no fue encontrado.`);
-    }
-    return viaje;
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.viajesService.findOne(id);
   }
 
-  async update(id: number, dto: UpdateViajeDto) {
-    // CORRECCIÓN 2: Refactorización completa del método update
-    // 1. Buscamos la entidad existente. findOne ya maneja el error 404.
-    const viaje = await this.findOne(id);
-
-    // 2. Extraemos las propiedades que necesitan tratamiento especial
-    const { fechaViaje, firmaViaje, ...restOfDto } = dto;
-
-    // 3. Fusionamos las propiedades simples del DTO en la entidad encontrada
-    Object.assign(viaje, restOfDto);
-
-    // 4. Manejamos las conversiones de tipo explícitamente
-    if (fechaViaje) {
-      viaje.fechaViaje = new Date(fechaViaje);
-    }
-    
-    // Si 'firmaViaje' viene en el DTO (puede ser un string o null)
-    if (firmaViaje !== undefined) {
-      // Si es un string (base64), lo convertimos a Buffer. Si es null, lo asignamos para borrar la firma.
-      viaje.firmaViaje = firmaViaje ? Buffer.from(firmaViaje, 'base64') : null;
-    }
-
-    // 5. Guardamos la entidad actualizada
-    return this.viajeRepository.save(viaje);
+  @Patch(':id')
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateViajeDto) {
+    return this.viajesService.update(id, dto);
   }
 
-  async remove(id: number) {
-    const viaje = await this.findOne(id);
-    await this.viajeRepository.remove(viaje);
-    return viaje;
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.viajesService.remove(id);
   }
 }

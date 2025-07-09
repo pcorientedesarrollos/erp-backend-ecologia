@@ -5,16 +5,16 @@ export class Usuario {
   @PrimaryGeneratedColumn()
   idUsers: number;
 
-  @Column({ length: 50 })
+  @Column({ length: 50,  nullable: true })
   username: string;
 
-  @Column({ length: 100 })
+  @Column({ length: 100,  nullable: true })
   password: string;
 
-  @Column()
+  @Column({length: 100, nullable: true })
   nombreCompleto: string;
 
-  @Column({ length: 50 })
+  @Column({ length: 50, nullable: true })
   perfil: string;
 
   @Column({ type: 'smallint', default: 1 })

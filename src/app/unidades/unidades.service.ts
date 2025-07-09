@@ -22,14 +22,14 @@ export class UnidadesService {
   }
 
   findOne(id: number) {
-    return this.unidadRepository.findOneBy({ idunidad: id });
+    return this.unidadRepository.findOneBy({ idUnidad: id });
   }
 
   update(id: number, updateUnidadeDto: UpdateUnidadeDto) {
-    return this.unidadRepository.update({ idunidad: id }, updateUnidadeDto);
+    return this.unidadRepository.update({ idUnidad: id }, updateUnidadeDto);
   }
 
   remove(id: number) {
-    return this.unidadRepository.delete({ idunidad: id });
+    return this.unidadRepository.delete({ idUnidad: id });
   }
 }

@@ -9,43 +9,43 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-@Entity({ name: 'viajes' })
+@Entity('viajes')
 export class Viaje {
-  @PrimaryGeneratedColumn({ name: 'idViaje' })
-  id: number;
+  @PrimaryGeneratedColumn()
+  idViaje: number;
 
-  @Column({ name: 'idruta', type: 'int' })
+  @Column({type: 'int' })
   idRuta: number;
 
-  @Column({ name: 'idunidad', type: 'int' })
+  @Column({type: 'int' })
   idUnidad: number;
 
-  @Column({ name: 'idoperador', type: 'int' })
+  @Column({type: 'int' })
   idOperador: number;
 
-  @Column({ name: 'fechaViaje', type: 'date' })
+  @Column({type: 'date' })
   fechaViaje: Date;
 
-  @Column({ name: 'horaSalidaViaje', type: 'time' })
+  @Column({type: 'time' })
   horaSalidaViaje: string;
 
-  @Column({ name: 'horaLlegadaViaje', type: 'time', nullable: true })
+  @Column({type: 'time', nullable: true })
   horaLlegadaViaje: string | null;
 
-  @Column({ name: 'firmaViaje', type: 'bytea', nullable: true })
+  @Column({type: 'bytea', nullable: true })
   firmaViaje: Buffer | null;
   // ===================================================================
 
-  @Column({ name: 'fechaRegistroViaje', type: 'timestamp' })
+  @Column({type: 'timestamp' })
   fechaRegistroViaje: Date;
 
-  @Column({ name: 'viajeCompletado', type: 'smallint', default: 0 })
+  @Column({type: 'smallint', default: 0 })
   viajeCompletado: number;
 
-  @Column({ name: 'idcliente', type: 'int' })
+  @Column({type: 'int' })
   idCliente: number;
 
   @ManyToOne(() => Cliente, { eager: true })
-  @JoinColumn({ name: 'idcliente', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'idcliente', referencedColumnName: 'idCliente' })
   cliente: Cliente;
 }
